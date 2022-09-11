@@ -86,7 +86,8 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_(int16_t consumption, uin
   else if (this->power_demand_calculation_ == POWER_DEMAND_PASSTHROUGH) {
     return this->calculate_power_demand_passthrough_(consumption);
   }else{
-  return this->calculate_power_demand_oem_(consumption);
+    return this->calculate_power_demand_oem_(consumption);
+  }
 }
 
 
