@@ -13,7 +13,7 @@ namespace soyosource_virtual_meter {
 enum PowerDemandCalculation {
   POWER_DEMAND_CALCULATION_DUMB_OEM_BEHAVIOR,
   POWER_DEMAND_CALCULATION_NEGATIVE_MEASUREMENTS_REQUIRED,
-  POWER_DEMAND_CALCULATION_PASSTHROUGH
+  POWER_DEMAND_PASSTHROUGH
 };
 
 class SoyosourceVirtualMeter : public PollingComponent, public soyosource_modbus::SoyosourceModbusDevice {
