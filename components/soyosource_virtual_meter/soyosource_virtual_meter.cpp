@@ -92,8 +92,7 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_(int16_t consumption, uin
 
 
 
-int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(int16_t consumption,
-                                                                              uint16_t last_power_demand) {
+int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(int16_t consumption, uint16_t last_power_demand) {
   ESP_LOGD(TAG, "'%s': Using the new method to calculate the power demand: %d %d", this->get_modbus_name(), consumption,
            last_power_demand);
 
@@ -108,10 +107,6 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(in
   //     -700           -690         10          500               -200           0
   int16_t importing_now = consumption - this->buffer_;
   int16_t power_demand = importing_now + last_power_demand;
-  //int16_t power_demand = this->buffer_;
-  //ESP_LOGD(TAG, "Debug value consumption: %d", consumption);
-  //ESP_LOGD(TAG, "Debug value this->buffer_: %d", this->buffer_);
-  //ESP_LOGD(TAG, "Debug value last_power_demand: %d", last_power_demand);
 
   if (power_demand >= this->max_power_demand_) {
     return this->max_power_demand_;
