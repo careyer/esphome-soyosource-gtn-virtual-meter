@@ -101,8 +101,12 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(in
   //     -200           -190         10          500                300         300
   //     -500           -490         10          500                  0           0
   //     -700           -690         10          500               -200           0
-  int16_t importing_now = consumption - this->buffer_;
-  int16_t power_demand = importing_now + last_power_demand;
+  //int16_t importing_now = consumption - this->buffer_;
+  //int16_t power_demand = importing_now + last_power_demand;
+  int16_t power_demand = this->buffer_;
+  ESP_LOGD(TAG, "Debug value consumption: %d", consumption);
+  ESP_LOGD(TAG, "Debug value this->buffer_: %d", this->buffer_);
+  ESP_LOGD(TAG, "Debug value last_power_demand: %d", last_power_demand);
 
   if (power_demand >= this->max_power_demand_) {
     return this->max_power_demand_;
