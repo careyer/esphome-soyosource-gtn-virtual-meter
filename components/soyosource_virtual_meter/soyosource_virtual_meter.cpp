@@ -123,7 +123,7 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(in
 int16_t SoyosourceVirtualMeter::calculate_power_demand_passthrough_(int16_t consumption) {
   ESP_LOGD(TAG, "'%s': Using the passthrough method: %d", this->get_modbus_name(), consumption);
 
-  int16_t power_demand = consumption;
+  int16_t power_demand = consumption*-1;
 
   if (power_demand >= this->max_power_demand_) {
     return this->max_power_demand_;
