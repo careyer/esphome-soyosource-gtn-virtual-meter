@@ -63,7 +63,7 @@ soyosource_virtual_meter:
     # the state of this sensor (instantaneous power in watt) is used as source
     power_id: powermeter0
     power_sensor_inactivity_timeout: 90s
-    power_demand_calculation: POWER_DEMAND_CALCULATION_PASSTHROUGH
+    power_demand_calculation: PASSTHROUGH
     min_power_demand: 0
     max_power_demand: 750
     # A positive buffer value (10) tries to avoid exporting power to the grid (demand - 10 watts)
