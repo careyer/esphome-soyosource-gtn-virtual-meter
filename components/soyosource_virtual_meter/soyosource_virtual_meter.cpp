@@ -83,9 +83,14 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_(int16_t consumption, uin
   if (this->power_demand_calculation_ == POWER_DEMAND_CALCULATION_NEGATIVE_MEASUREMENTS_REQUIRED) {
     return this->calculate_power_demand_negative_measurements_(consumption, last_power_demand);
   }
-
+  else if (this->power_demand_calculation_ == POWER_DEMAND_PASSTHROUGH) {
+    return this->calculate_power_demand_passthrough_(consumption);
+  }else{
   return this->calculate_power_demand_oem_(consumption);
 }
+
+
+
 
 int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(int16_t consumption,
                                                                               uint16_t last_power_demand) {
@@ -101,12 +106,12 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(in
   //     -200           -190         10          500                300         300
   //     -500           -490         10          500                  0           0
   //     -700           -690         10          500               -200           0
-  //int16_t importing_now = consumption - this->buffer_;
-  //int16_t power_demand = importing_now + last_power_demand;
-  int16_t power_demand = this->buffer_;
-  ESP_LOGD(TAG, "Debug value consumption: %d", consumption);
-  ESP_LOGD(TAG, "Debug value this->buffer_: %d", this->buffer_);
-  ESP_LOGD(TAG, "Debug value last_power_demand: %d", last_power_demand);
+  int16_t importing_now = consumption - this->buffer_;
+  int16_t power_demand = importing_now + last_power_demand;
+  //int16_t power_demand = this->buffer_;
+  //ESP_LOGD(TAG, "Debug value consumption: %d", consumption);
+  //ESP_LOGD(TAG, "Debug value this->buffer_: %d", this->buffer_);
+  //ESP_LOGD(TAG, "Debug value last_power_demand: %d", last_power_demand);
 
   if (power_demand >= this->max_power_demand_) {
     return this->max_power_demand_;
@@ -118,6 +123,22 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(in
 
   return 0;
 }
+
+int16_t SoyosourceVirtualMeter::calculate_power_demand_passthrough_(int16_t consumption) {
+  ESP_LOGD(TAG, "'%s': Using the passthrough method: %d", this->get_modbus_name(), consumption);
+
+  int16_t power_demand = consumption;
+
+  if (power_demand >= this->max_power_demand_) {
+    return this->max_power_demand_;
+  }
+
+  if (power_demand > this->min_power_demand_) {
+    return power_demand;
+  }
+  return 0;
+}
+
 
 int16_t SoyosourceVirtualMeter::calculate_power_demand_oem_(int16_t consumption) {
   ESP_LOGD(TAG, "'%s': Using the dumb OEM method to calculate the power demand: %d", this->get_modbus_name(),
