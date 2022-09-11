@@ -91,6 +91,7 @@ class SoyosourceVirtualMeter : public PollingComponent, public soyosource_modbus
   int16_t calculate_power_demand_(int16_t consumption, uint16_t last_power_demand);
   int16_t calculate_power_demand_negative_measurements_(int16_t consumption, uint16_t last_power_demand);
   int16_t calculate_power_demand_oem_(int16_t consumption);
+  int16_t calculate_power_demand_passthrough_(int16_t consumption);
 };
 
 }  // namespace soyosource_virtual_meter
